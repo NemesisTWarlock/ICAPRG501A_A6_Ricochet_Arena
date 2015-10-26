@@ -89,7 +89,7 @@ function PlayPowerupFadingSound()
 
 DefaultProperties
 {
-		bDelayedSpawn=false
+		
 		PowerupStatName=POWERUPTIME_SPEEDBOOST
 
 	Begin Object Class=StaticMeshComponent Name=MeshComponentA
@@ -102,9 +102,9 @@ DefaultProperties
 		bAcceptsLights=true
 		CollideActors=false
 		BlockRigidBody=false
-		Scale3D=(X=0.6,Y=0.6,Z=0.6)
+		Scale3D=(X=2,Y=2,Z=2)
 		MaxDrawDistance=8000
-		Translation=(X=0.0,Y=0.0,Z=1.0)
+		Translation=(X=0.0,Y=0.0,Z=-30.0)
 	End Object
 	DroppedPickupMesh=MeshComponentA
 	PickupFactoryMesh=MeshComponentA
@@ -128,4 +128,8 @@ DefaultProperties
 
 
 	PP_Scene_Highlights=(X=-0.1,Y=0.04,Z=-0.2)
+
+
+	TimeRemaining=10.0
+	bDelayedSpawn=false
 }

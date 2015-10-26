@@ -19,7 +19,7 @@ DefaultProperties
 		Template=ParticleSystem'Pickups.Base_Armor.Effects.P_Pickups_Base_Armor_Glow'
 		bAutoActivate=false
 		SecondsBeforeInactive=1.0f
-		Translation=(X=0.0,Y=0.0,Z=1.0)
+		Translation=(X=0.0,Y=0.0,Z=-30.0)
 	End Object
 	SpinningParticleEffects=DamageParticles
 	Components.Add(DamageParticles)
@@ -54,4 +54,6 @@ DefaultProperties
 	End Object
 	Spinner=StaticMeshComponent1
  	Components.Add(StaticMeshComponent1)
+
+	YawRotationRate=16384
 }
