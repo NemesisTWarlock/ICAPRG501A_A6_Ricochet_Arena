@@ -1,10 +1,11 @@
+//Some code copied from UTUDamage class, Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
+
 class RicoSpeedBoost extends UTTimedPowerup;
 
 /**
  * This powerup temporarily increases the collecting pawn's movement speed.
  */
 
-//Setting Vars
 
 /** Sound played when the Powerup is running out */
 var SoundCue PowerupFadingSound;
@@ -16,20 +17,23 @@ var MaterialInterface OverlayMaterialInstance;
 var SoundCue DamageAmbientSound;
 
 
+/**Replicate Weapon Overlay material to be seen by other players */
 simulated static function AddWeaponOverlay(UTGameReplicationInfo GRI)
 {
 	GRI.WeaponOverlays[0] = default.OverlayMaterialInstance;
 }
 
-//TESTING: USING UDAMAGE POWERUP CODE, MODIFYING TO SUIT, CODE WILL CHANGE ANY TIME.
 
-function GivenTo(Pawn NewOwner, optional bool bDoNotActivate)
+
+
+/**When Pawn Recieves the Powerup*/
+function GivenTo(Pawn NewOwner, optional bool bDoNotActivate) 
 {
 	local Ricopawn P;
 
 	Super.GivenTo(NewOwner, bDoNotActivate);
 	P = RicoPawn(NewOwner);
-	// boost speed
+	// Multiply Movement Speed
 	P.GroundSpeed *= 5.0;	
 	if (P != None)
 	{
@@ -37,20 +41,67 @@ function GivenTo(Pawn NewOwner, optional bool bDoNotActivate)
 		P.SetWeaponOverlayFlag(0);
 		P.SetPawnAmbientSound(DamageAmbientSound);
 	}
-	// set timer for ending sounds
+	// set timer for Warning sounds
 	SetTimer(TimeRemaining - 3.0, false, 'PlayPowerupFadingSound');
 
 }
 
-//Set things back to nromal when the powerup ends
+/**Display the Powerup Timer on the HUD*/
+simulated function DisplayPowerup(Canvas Canvas, UTHud HUD, float ResolutionScale,out float YPos)
+{
+	local float FlashAlpha, Scaler; //The Alpha for the Warning Flash, The Time scale for the flash amount
+	local float XPos; //UI X Position
+	local string TimeRemainingAsString; //Time Remaining String
+	local int TimeRemainingAsInt; //Time Remaining Integer
+
+	//Setup Warning Flash
+	if (TransitionTime > 0.0)
+	{
+		TransitionTime -= HUD.RenderDelta;
+		if (TransitionTime < 0.0)
+		{
+			TransitionTime = 0.0;
+		}
+	}
+
+	Scaler = TransitionTime / TransitionDuration;
+	if (TimeRemaining < 1.0)
+	{
+		FlashAlpha = TimeRemaining;
+	}
+	else
+	{
+		FlashAlpha = (TimeRemaining <= WarningTime) ? 0.25 + (0.75*abs(cos(TimeRemaining))) : 1.0;
+	}
+
+	Scaler = 1.0 + (12 * Scaler);
+	XPos = (Canvas.ClipX * 0.025);
+	
+
+	// Draw the Time Remaining;
+    TimeRemainingAsInt = Max(0, int(TimeRemaining+1));
+	TimeRemainingAsString =("Boost Time Remaining:" @ TimeRemainingAsInt);
+    
+	Canvas.SetPos(XPos+20 * ResolutionScale, YPos+20 * ResolutionScale);
+	XPos += (35 * ResolutionScale);
+	YPos -= 50 * ResolutionScale;
+	Canvas.Font=MultiFont'UI_Fonts.MultiFonts.MF_HudHuge';
+	Canvas.SetDrawColor(255,255,255,255*FlashAlpha);
+	Canvas.DrawText(TimeRemainingAsString,,0.25,0.25);
+
+
+
+}
+
+/**Set things back to normal when the powerup ends*/
 
 function ItemRemovedFromInvManager()
 {
 	local UTPlayerReplicationInfo UTPRI;
-	local UTPawn P;
+	local RicoPawn P;
 
 	Pawn(Owner).GroundSpeed /= 5.0;
-	P = UTPawn(Owner);
+	P = RicoPawn(Owner);
 	if (P != None)
 	{
 		P.ClearWeaponOverlayFlag( 0 );
@@ -110,7 +161,7 @@ DefaultProperties
 	PickupFactoryMesh=MeshComponentA
 
 	Begin Object Class=UTParticleSystemComponent Name=PickupParticles
-		Template=ParticleSystem'Pickups.UDamage.Effects.P_Pickups_UDamage_Idle'
+		Template=ParticleSystem'Pickups.Base_Armor.Effects.P_Pickups_Base_Armor_Glow'
 		bAutoActivate=false
 		SecondsBeforeInactive=1.0f
 		Translation=(X=0.0,Y=0.0,Z=+5.0)
@@ -124,7 +175,6 @@ DefaultProperties
 	OverlayMaterialInstance=Material'Pickups.Armor_ShieldBelt.M_ShieldBelt_Overlay'
 	DamageAmbientSound=SoundCue'A_Pickups_Powerups.PowerUps.A_Powerup_UDamage_PowerLoopCue'
 	HudIndex=0
-	IconCoords=(U=792,UL=43,V=41,VL=58)
 
 
 	PP_Scene_Highlights=(X=-0.1,Y=0.04,Z=-0.2)

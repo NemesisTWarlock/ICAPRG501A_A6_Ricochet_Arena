@@ -1,18 +1,15 @@
 class RicoPawn extends UTPawn;
 
-/* The Ricochet Arena Player Pawn. 
+/** The Ricochet Arena Player Pawn. 
  * This will contain Extentions of UTPawn Functions to change various things as noted in the Technical Design Doc.
  */
 
-//Variables Setup
-var bool bCanDodge; //Checks for player Dodging
+/** Check for player Dodging */
+var bool bCanDodge; 
 
 
 
-
-//Disable Directional Dodge
-
-
+/**Disable Directional Dodge*/
 function bool Dodge(eDoubleClickDir DoubleClickMove)
 {
 	if(bCanDodge)
@@ -29,7 +26,7 @@ DefaultProperties
 {
 	//Disable Double Jumping
 	MaxMultiJump=0
-	//Change Walking Speed
+	//Set Default Walking Speed
 	GroundSpeed=200
 
 }
