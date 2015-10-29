@@ -62,7 +62,7 @@ DefaultProperties
 	WeaponEquipSnd=SoundCue'A_Weapon_RocketLauncher.Cue.A_Weapon_RL_Raise_Cue'
 
 
-	WeaponProjectiles(0)=class'UTProj_Rocket'
+	WeaponProjectiles(0)=class'Proj_RicoDisc'
 
 
 //Projectile Fire Offset
