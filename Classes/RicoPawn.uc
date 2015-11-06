@@ -6,7 +6,15 @@ class RicoPawn extends UTPawn;
 
 /** Check for player Dodging */
 var bool bCanDodge; 
+
+/** Amount of Damage to do on a Headshot */
 var int HeadShotDamage;
+
+/** Weapon Perks */
+var bool bPerkAmmo;
+var bool bPerkRegen;
+var bool bPerkVelocity;
+var bool bPerkBounce;
 
 
 
@@ -43,21 +51,87 @@ if( Mesh.BoneIsChildOf(HitBone, 'b_Head') || HitBone == 'b_Head' )
 //NEXT LINE FOTR TESTING ONLY
 //`log("InDamage"@InDamage);
 
+
 super.AdjustDamage(InDamage, Momentum, InstigatedBy, HitLocation, DamageType, HitInfo, DamageCauser);
 }
 
+// Weapon Perk Testing, Delete when finished (This just sets toggles for the weapon perks)
 
+exec function TogglePerkAmmo()
+{
+	if(!bPerkAmmo)
+	{
+		bPerkAmmo=true;
+
+		ClientMessage("Ammo Perk ON");
+	}
+	else
+	{
+		bPerkAmmo=false;
+
+		ClientMessage("Ammo Perk OFF");
+	}
+}
+
+exec function TogglePerkRegen()
+{
+	if(!bPerkRegen)
+	{
+		bPerkRegen=true;
+	
+		ClientMessage("Regen Perk ON");
+	}
+	else
+	{
+		bPerkRegen=false;
+	
+		ClientMessage("Regen Perk OFF");
+	}
+}
+
+exec function TogglePerkVelocity()
+{
+	if(!bPerkVelocity)
+	{
+		bPerkVelocity=true;
+		
+		ClientMessage("Velocity Perk ON");
+	}
+	else
+	{
+		bPerkVelocity=false;
+			
+		ClientMessage("Velocity Perk OFF");
+	}
+}
+
+exec function TogglePerkBounce()
+{
+	if(!bPerkBounce)
+	{
+		bPerkBounce=true;
+				
+		ClientMessage("Bounce Perk ON");
+	}
+	else
+	{
+		bPerkBounce=false;
+			
+		ClientMessage("Bounce Perk OFF");
+	}
+}
 
 
 DefaultProperties
 {
 	//Disable Double Jumping
-	MaxMultiJump=0
+	MaxMultiJump = 0
 
 	//Set Default Walking Speed
-	GroundSpeed=200
+	GroundSpeed = 200
 
 	//Damage on Headshot (Keep this big enough to instantly kill the pawn)
-	HeadshotDamage=1000
+	HeadshotDamage = 1000
+
 
 }

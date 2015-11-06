@@ -66,11 +66,11 @@ defaultproperties
 
 	DecalWidth=128.0
 	DecalHeight=128.0
-	speed=1350.0
-	MaxSpeed=1350.0
+	speed=900.0
+	MaxSpeed=900.0
 	Damage=0.0
 	DamageRadius=0.0
-	MomentumTransfer=85000
+	MomentumTransfer=65000
 	MyDamageType=class'UTDmgType_Rocket'
 	LifeSpan=8.0
 

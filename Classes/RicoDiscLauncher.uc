@@ -2,7 +2,6 @@ class RicoDiscLauncher extends UTWeapon;
 
 /** This is the Ricochet Disc Launcher. It fires High velocity bouncing projectiles that push opponents. If the user lands a headshot on a target however, it instantly kills them. */
 
-//INITIAL WEAPON MECHANICS TESTING, USING ROCKET LAUNCHER
 
 //Regen Ammo
 
@@ -28,6 +27,52 @@ if (AmmoCount != MaxAmmoCount)
 {
 SetTimer (RechargeRate, true, 'RegenAmmo');
 }
+}
+
+
+
+//Weapon Perks
+
+simulated function WeaponPerk (Ricopawn P, Proj_RicoDisc W)
+{
+	if ( P.bPerkAmmo == True )
+	{
+		MaxAmmoCount = 20;
+	}
+	else 
+	{
+		MaxAmmoCount = 10;
+	}
+
+	if ( P.bPerkRegen == True )
+	{
+		RechargeRate= 1.0;
+	}
+	else
+	{
+		RechargeRate=2.0;
+	}
+
+	if ( P.bPerkVelocity == True )
+	{ 
+		W.Speed = 1500;
+		W.MaxSpeed = 1500;
+	}
+	else
+	{
+		W.Speed = 900;
+		W.MaxSpeed = 900;
+	}
+
+	if ( P.bPerkBounce == True )
+	{
+		W.MaxBounces = 6;
+	}
+	else
+	{
+		W.MaxBounces = 3;
+	}
+
 }
 
 DefaultProperties
