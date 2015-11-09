@@ -10,6 +10,8 @@ class RicoDiscLauncher extends UTWeapon;
  */
 var float RechargeRate;
 
+var Proj_RicoDisc Projectile;
+
 simulated function RegenAmmo()
 {
 AmmoCount = Min(AmmoCount + 1, MaxAmmoCount);
@@ -29,48 +31,62 @@ SetTimer (RechargeRate, true, 'RegenAmmo');
 }
 }
 
-
+//Check
 
 //Weapon Perks
 
-simulated function WeaponPerk (Ricopawn P, Proj_RicoDisc W)
+
+
+simulated function WeaponPerk (RicoPawn P, Projectile)
 {
 	if ( P.bPerkAmmo == True )
 	{
 		MaxAmmoCount = 20;
+		`log("Max Ammo Count should be 20, is currently" @ MaxAmmoCount);
 	}
 	else 
 	{
 		MaxAmmoCount = 10;
+		`log("Max Ammo Count should be 10, is currently" @ MaxAmmoCount);
 	}
 
 	if ( P.bPerkRegen == True )
 	{
 		RechargeRate= 1.0;
+		`log("Recharge Rate should be 1.0, is currently" @ RechargeRate);
+
 	}
 	else
 	{
-		RechargeRate=2.0;
+		RechargeRate=4.0;
+		`log("Recharge Rate should be 4.0, is currently" @ RechargeRate);
+
 	}
 
 	if ( P.bPerkVelocity == True )
 	{ 
-		W.Speed = 1500;
-		W.MaxSpeed = 1500;
+		W.Speed = 15000;
+		W.MaxSpeed = 15000;
+		`log("Projectile Speed should be 15000, is currently" @ W.Speed);
+		`log("Projectile Max Speed should be 15000, is currently" @ W.MaxSpeed);
 	}
 	else
 	{
 		W.Speed = 900;
 		W.MaxSpeed = 900;
+		`log("Projectile Speed should be 900, is currently" @ W.Speed);
+		`log("Projectile Max Speed should be 900, is currently" @ W.MaxSpeed);
 	}
 
 	if ( P.bPerkBounce == True )
 	{
 		W.MaxBounces = 6;
+		`log("Projectile Max Bounce count should be 6, is currently" @ W.MaxBounces);
 	}
 	else
 	{
 		W.MaxBounces = 3;
+		`log("Projectile Max Bounce count should be 3, is currently" @ W.MaxBounces);
 	}
 
 }

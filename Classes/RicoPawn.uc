@@ -15,6 +15,7 @@ var bool bPerkAmmo;
 var bool bPerkRegen;
 var bool bPerkVelocity;
 var bool bPerkBounce;
+var Proj_RicoDisc Projectile;
 
 
 
@@ -59,16 +60,18 @@ super.AdjustDamage(InDamage, Momentum, InstigatedBy, HitLocation, DamageType, Hi
 
 exec function TogglePerkAmmo()
 {
+
+
 	if(!bPerkAmmo)
 	{
 		bPerkAmmo=true;
-
+		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);		
 		ClientMessage("Ammo Perk ON");
 	}
 	else
 	{
 		bPerkAmmo=false;
-
+		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);
 		ClientMessage("Ammo Perk OFF");
 	}
 }
@@ -78,13 +81,13 @@ exec function TogglePerkRegen()
 	if(!bPerkRegen)
 	{
 		bPerkRegen=true;
-	
+		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);		
 		ClientMessage("Regen Perk ON");
 	}
 	else
 	{
 		bPerkRegen=false;
-	
+		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);		
 		ClientMessage("Regen Perk OFF");
 	}
 }
@@ -94,13 +97,13 @@ exec function TogglePerkVelocity()
 	if(!bPerkVelocity)
 	{
 		bPerkVelocity=true;
-		
+		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);			
 		ClientMessage("Velocity Perk ON");
 	}
 	else
 	{
 		bPerkVelocity=false;
-			
+		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);				
 		ClientMessage("Velocity Perk OFF");
 	}
 }
@@ -110,13 +113,13 @@ exec function TogglePerkBounce()
 	if(!bPerkBounce)
 	{
 		bPerkBounce=true;
-				
+		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);					
 		ClientMessage("Bounce Perk ON");
 	}
 	else
 	{
 		bPerkBounce=false;
-			
+		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);				
 		ClientMessage("Bounce Perk OFF");
 	}
 }
