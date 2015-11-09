@@ -58,11 +58,11 @@ super.AdjustDamage(InDamage, Momentum, InstigatedBy, HitLocation, DamageType, Hi
 
 // Weapon Perk Testing, Delete when finished (This just sets toggles for the weapon perks)
 
-
-function Projectile GetProjectile (int fireMode)
-{
-	return((UTWeapon)Weapon).WeaponProjectiles[fireMode];
-}
+//CODE BROKEN, FIX PLZ :)
+//function Projectile GetProjectile (int fireMode)
+//{
+//	return RicoDiscLauncher(Weapon).WeaponProjectiles[fireMode];
+//}
 
 
 exec function TogglePerkAmmo()
