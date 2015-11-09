@@ -10,7 +10,6 @@ class RicoDiscLauncher extends UTWeapon;
  */
 var float RechargeRate;
 
-var Proj_RicoDisc Projectile;
 
 simulated function RegenAmmo()
 {
@@ -31,13 +30,12 @@ SetTimer (RechargeRate, true, 'RegenAmmo');
 }
 }
 
-//Check
 
 //Weapon Perks
 
 
 
-simulated function WeaponPerk (RicoPawn P, Projectile)
+simulated function WeaponPerk (RicoPawn P, Proj_RicoDisc W)
 {
 	if ( P.bPerkAmmo == True )
 	{
