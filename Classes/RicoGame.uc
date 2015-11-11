@@ -4,6 +4,8 @@ class RicoGame extends UTGame;
 /** The Base GameInfo for Ricochet Arena. it should handle Inventory Management, Weapon Perks, and Scoring. */
 
 
+
+
 //Kill Scoring
 function ScoreKill(Controller Killer, Controller Other)
 {

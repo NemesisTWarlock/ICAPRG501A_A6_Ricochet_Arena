@@ -10,12 +10,30 @@ var bool bCanDodge;
 /** Amount of Damage to do on a Headshot */
 var int HeadShotDamage;
 
-/** Weapon Perks */
+/** Weapon Perk - Ammo Count */
 var bool bPerkAmmo;
+/** Weapon Perk - Ammo Regen Rate */
 var bool bPerkRegen;
+/** Weapon Perk - Projectile Velocity */
 var bool bPerkVelocity;
+/** Weapon Perk - Projectile Bounce Count */
 var bool bPerkBounce;
+/**Projectiles fired by the Pawn */
 var Proj_RicoDisc Projectile;
+
+
+///**
+// * HitHistory - Keeps track of controllers who hit a Pawn, and the Time Stamp (For Assist Scoring)
+// */
+
+//var array<Hit> HitHistory;
+
+//struct Hit
+//{
+//	var controller Shooter;
+//	var float TimeStamp;
+//};
+
 
 
 
@@ -28,7 +46,9 @@ function bool Dodge(eDoubleClickDir DoubleClickMove)
 	return false;
 }
 
-// Adjust damage based on angle of attack, hitlocation, armour, etc 
+/** 
+ *  Adjust damage based on angle of attack, hitlocation, armour, etc. Used here to set up Headshots.
+ */
 function AdjustDamage(out int InDamage, out vector Momentum, Controller InstigatedBy, vector HitLocation, class<DamageType> DamageType, TraceHitInfo HitInfo, Actor DamageCauser)
 {
 local name HitBone;
@@ -36,33 +56,19 @@ local name HitBone;
 //Find the closest Bone to the Hitlocation
 HitBone = Mesh.FindClosestBone(HitLocation);
 
-//NEXT LINE FOR TESTING ONLY
-//`log("Check Adjust Damage"@HitBone ); 
-
 //If Hitbone is the Head bone..
 if( Mesh.BoneIsChildOf(HitBone, 'b_Head') || HitBone == 'b_Head' )
 {
-
-//NEXT LINE FOR TESTING ONLY
-//`log("headshot");
-
 	//BOOM, HEADSHOT!
 	InDamage = HeadShotDamage;
 }
-//NEXT LINE FOTR TESTING ONLY
-//`log("InDamage"@InDamage);
-
 
 super.AdjustDamage(InDamage, Momentum, InstigatedBy, HitLocation, DamageType, HitInfo, DamageCauser);
 }
 
 // Weapon Perk Testing, Delete when finished (This just sets toggles for the weapon perks)
 
-//CODE BROKEN, FIX PLZ :)
-//function Projectile GetProjectile (int fireMode)
-//{
-//	return RicoDiscLauncher(Weapon).WeaponProjectiles[fireMode];
-//}
+
 
 
 exec function TogglePerkAmmo()
@@ -72,7 +78,7 @@ exec function TogglePerkAmmo()
 	if(!bPerkAmmo)
 	{
 		bPerkAmmo=true;
-		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);		
+		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);	//Calls the weapon perk Function to make sure it toggles correctly	
 		ClientMessage("Ammo Perk ON");
 	}
 	else
@@ -104,13 +110,13 @@ exec function TogglePerkVelocity()
 	if(!bPerkVelocity)
 	{
 		bPerkVelocity=true;
-		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);			
+		
 		ClientMessage("Velocity Perk ON");
 	}
 	else
 	{
 		bPerkVelocity=false;
-		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);				
+			
 		ClientMessage("Velocity Perk OFF");
 	}
 }
@@ -120,16 +126,19 @@ exec function TogglePerkBounce()
 	if(!bPerkBounce)
 	{
 		bPerkBounce=true;
-		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);					
+				
 		ClientMessage("Bounce Perk ON");
 	}
 	else
 	{
 		bPerkBounce=false;
-		RicoDiscLauncher(Weapon).WeaponPerk(Self, Projectile);				
+		
 		ClientMessage("Bounce Perk OFF");
 	}
 }
+
+
+
 
 
 DefaultProperties

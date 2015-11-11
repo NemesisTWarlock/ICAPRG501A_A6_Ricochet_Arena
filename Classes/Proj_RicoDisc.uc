@@ -7,10 +7,42 @@ class Proj_RicoDisc extends UTProjectile;
 var int NumBounces;
 var int MaxBounces;
 
+
 simulated function PostBeginPlay()
 {
-	// force ambient sound if not vehicle game mode
-	bImportantAmbientSound = !WorldInfo.bDropDetail;
+local RicoPawn P;
+
+P = RicoPawn(Instigator);
+
+	//Weapon Projectile Perks
+
+
+	if ( P.bPerkVelocity == True )
+	{ 
+		Speed = 15000;
+		MaxSpeed = 15000;
+		`log("Projectile Speed should be 15000, is currently" @ Speed);
+		`log("Projectile Max Speed should be 15000, is currently" @ MaxSpeed);
+	}
+	else
+	{
+		Speed = 900;
+		MaxSpeed = 900;
+		`log("Projectile Speed should be 900, is currently" @ Speed);
+		`log("Projectile Max Speed should be 900, is currently" @ MaxSpeed);
+	}
+
+	if ( P.bPerkBounce == True )
+	{
+		MaxBounces = 6;
+		`log("Projectile Max Bounce count should be 6, is currently" @ MaxBounces);
+	}
+	else
+	{
+		MaxBounces = 3;
+		`log("Projectile Max Bounce count should be 3, is currently" @ MaxBounces);
+	}
+
 	Super.PostBeginPlay();
 }
 
@@ -34,7 +66,7 @@ simulated event HitWall(vector HitNormal, Actor Wall, PrimitiveComponent WallCom
 
 }
 
-//When Hitting another pawn, Push the Pawn, then Destroy the projectile
+//When Hitting another pawn, Push the Pawn, then Destroy the projectile. If a pawn is hit by their own projectile, Return the projectile to the ammo clip
 simulated function ProcessTouch(Actor Other, Vector HitLocation, Vector HitNormal)
 {
     if ( Other != Instigator && Other != None )
@@ -66,13 +98,13 @@ defaultproperties
 
 	DecalWidth=128.0
 	DecalHeight=128.0
-	speed=900.0
+	Speed=900.0
 	MaxSpeed=900.0
 	Damage=0.0
 	DamageRadius=0.0
 	MomentumTransfer=65000
 	MyDamageType=class'UTDmgType_Rocket'
-	LifeSpan=8.0
+	LifeSpan=10.0
 
 
 	AmbientSound=SoundCue'A_Weapon_RocketLauncher.Cue.A_Weapon_RL_Travel_Cue'

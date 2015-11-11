@@ -31,7 +31,7 @@ SetTimer (RechargeRate, true, 'RegenAmmo');
 }
 
 
-//Weapon Perks
+//Weapon Power Perks
 
 
 
@@ -61,31 +61,9 @@ simulated function WeaponPerk (RicoPawn P, Proj_RicoDisc W)
 
 	}
 
-	if ( P.bPerkVelocity == True )
-	{ 
-		W.Speed = 15000;
-		W.MaxSpeed = 15000;
-		`log("Projectile Speed should be 15000, is currently" @ W.Speed);
-		`log("Projectile Max Speed should be 15000, is currently" @ W.MaxSpeed);
-	}
-	else
-	{
-		W.Speed = 900;
-		W.MaxSpeed = 900;
-		`log("Projectile Speed should be 900, is currently" @ W.Speed);
-		`log("Projectile Max Speed should be 900, is currently" @ W.MaxSpeed);
-	}
 
-	if ( P.bPerkBounce == True )
-	{
-		W.MaxBounces = 6;
-		`log("Projectile Max Bounce count should be 6, is currently" @ W.MaxBounces);
-	}
-	else
-	{
-		W.MaxBounces = 3;
-		`log("Projectile Max Bounce count should be 3, is currently" @ W.MaxBounces);
-	}
+
+
 
 }
 
