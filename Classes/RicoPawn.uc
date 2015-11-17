@@ -155,7 +155,12 @@ simulated event TakeDamage(int Damage, Controller EventInstigator, vector HitLoc
 	
 
 	local Hit LastHit;
-	//local int HitArrayLength;
+	local int i;
+	local int HitArrayLength;
+	local bool bAlreadyInArray;
+
+//Get the True length of the Array
+	HitArrayLength= HitHistory.Length - 1; 
 
 //Get the last controller to hit the pawn
 	LastHit.Shooter = EventInstigator;
@@ -163,12 +168,30 @@ simulated event TakeDamage(int Damage, Controller EventInstigator, vector HitLoc
 //Get the Time this occured
 	LastHit.TimeStamp = WorldInfo.TimeSeconds;
 
-//Add these to the HitHistory Array
-	HitHistory.AddItem(LastHit);
+// Set the Default bool for AlreadyInArray
+	bAlreadyInArray = False;
+
+//Check if the Shooter is already in the Array
+	for (i=0; i < HitHistory.Length; i++)
+	{
+//If it is, Do not add it to the array
+		if (HitHistory[i].Shooter == LastHit.Shooter)
+		{
+			bAlreadyInArray = True;
+			break;
+		}
+	}
+
+//if it's not, Add it to the Array
+	if (!bAlreadyInArray)
+	{
+		HitHistory.AddItem(LastHit);
+	}
+
 
 //Log this to the Console (FOR TESTING)
 	
-	//HitArrayLength= HitHistory.Length - 1; //REMEMBER: Arrays start at 0! Get the true length of the array by subtracting 1 from it.
+	//REMEMBER: Arrays start at 0! Get the true length of the array by subtracting 1 from it.
 	//`log ("Array Length is:" @ HitArrayLength);
 	//`log("Hit By" @ HitHistory[HitArrayLength].Shooter @ "At" @ HitHistory[HitArrayLength].TimeStamp);
 
