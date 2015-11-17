@@ -1,15 +1,34 @@
+/** This is the Ricochet Disc Launcher. It fires High velocity bouncing projectiles that push opponents. If the user lands a headshot on a target however, it instantly kills them. */
 class RicoDiscLauncher extends UTWeapon;
 
-/** This is the Ricochet Disc Launcher. It fires High velocity bouncing projectiles that push opponents. If the user lands a headshot on a target however, it instantly kills them. */
-
-
-//Regen Ammo
-
-/** 
- *  recharge rate in ammo per second 
- */
+/** Recharge rate in ammo per second  */
 var float RechargeRate;
 
+/** Amount of Projectiles to Fire (For SuperShot Perk) */
+var int ProjCount;
+
+simulated function Projectile ProjectileFire() 
+{
+    local int s;
+
+	if (RicoPawn(Owner).bPerkSpreadFire == true)
+	{
+		Spread[0]=0.6; //Spread out the projectiles
+		ProjCount = 5; //set Number of Projectiles to Fire
+		
+
+		for(s=0; s < ProjCount; s++) // Spawn the wanted amount of projectiles.
+	            {
+	                super.ProjectileFire();
+	            }
+
+	}
+	else
+	{
+		super.ProjectileFire();
+	}
+		return None;
+}
 
 simulated function RegenAmmo()
 {
@@ -37,34 +56,30 @@ SetTimer (RechargeRate, true, 'RegenAmmo');
 
 simulated function WeaponPerk (RicoPawn P, Proj_RicoDisc W)
 {
-	if ( P.bPerkAmmo == True )
-	{
-		MaxAmmoCount = 20;
-		`log("Max Ammo Count should be 20, is currently" @ MaxAmmoCount);
-	}
-	else 
-	{
-		MaxAmmoCount = 10;
-		`log("Max Ammo Count should be 10, is currently" @ MaxAmmoCount);
-	}
+	
+		if ( P.bPerkAmmo == True )
+		{
+			MaxAmmoCount = 20;
+			//`log("Max Ammo Count should be 20, is currently" @ MaxAmmoCount);
+		}
+		else 
+		{
+			MaxAmmoCount = 10;
+			//`log("Max Ammo Count should be 10, is currently" @ MaxAmmoCount);
+		}
 
-	if ( P.bPerkRegen == True )
-	{
-		RechargeRate= 1.0;
-		`log("Recharge Rate should be 1.0, is currently" @ RechargeRate);
+		if ( P.bPerkRegen == True )
+		{
+			RechargeRate= 1.0;
+			//`log("Recharge Rate should be 1.0, is currently" @ RechargeRate);
 
-	}
-	else
-	{
-		RechargeRate=4.0;
-		`log("Recharge Rate should be 4.0, is currently" @ RechargeRate);
+		}
+		else
+		{
+			RechargeRate=4.0;
+			//`log("Recharge Rate should be 4.0, is currently" @ RechargeRate);
 
-	}
-
-
-
-
-
+		}
 }
 
 DefaultProperties
@@ -123,7 +138,12 @@ DefaultProperties
 	MaxAmmoCount=10
 
 	//Recharge Rate
-	RechargeRate=2.0;
+	RechargeRate=2.0
+
+	//Set Default number of Projectiles Fired
+	ProjCount=1
+	//Set Default Fire Spread
+	Spread(0)=0.0
 
 //Disable Secondary Fire
 	WeaponFireTypes(0)=EWFT_Projectile

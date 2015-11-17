@@ -21,26 +21,26 @@ P = RicoPawn(Instigator);
 	{ 
 		Speed = 15000;
 		MaxSpeed = 15000;
-		`log("Projectile Speed should be 15000, is currently" @ Speed);
-		`log("Projectile Max Speed should be 15000, is currently" @ MaxSpeed);
+		//`log("Projectile Speed should be 15000, is currently" @ Speed);
+		//`log("Projectile Max Speed should be 15000, is currently" @ MaxSpeed);
 	}
 	else
 	{
 		Speed = 900;
 		MaxSpeed = 900;
-		`log("Projectile Speed should be 900, is currently" @ Speed);
-		`log("Projectile Max Speed should be 900, is currently" @ MaxSpeed);
+		//`log("Projectile Speed should be 900, is currently" @ Speed);
+		//`log("Projectile Max Speed should be 900, is currently" @ MaxSpeed);
 	}
 
 	if ( P.bPerkBounce == True )
 	{
 		MaxBounces = 6;
-		`log("Projectile Max Bounce count should be 6, is currently" @ MaxBounces);
+		//`log("Projectile Max Bounce count should be 6, is currently" @ MaxBounces);
 	}
 	else
 	{
 		MaxBounces = 3;
-		`log("Projectile Max Bounce count should be 3, is currently" @ MaxBounces);
+		//`log("Projectile Max Bounce count should be 3, is currently" @ MaxBounces);
 	}
 
 	Super.PostBeginPlay();
