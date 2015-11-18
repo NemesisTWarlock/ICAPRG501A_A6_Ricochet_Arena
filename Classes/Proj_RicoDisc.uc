@@ -50,6 +50,9 @@ P = RicoPawn(Instigator);
 
 simulated event HitWall(vector HitNormal, Actor Wall, PrimitiveComponent WallComp)
 {
+	//Increase the Projectile Speed by 25%
+	Velocity = Velocity * 1.25;
+
 	//Bounce the Projectile
     Velocity = MirrorVectorByNormal(Velocity,HitNormal);
     SetRotation(Rotator(Velocity));
@@ -66,18 +69,25 @@ simulated event HitWall(vector HitNormal, Actor Wall, PrimitiveComponent WallCom
 
 }
 
-//When Hitting another pawn, Push the Pawn, then Destroy the projectile. If a pawn is hit by their own projectile, Return the projectile to the ammo clip
+
 simulated function ProcessTouch(Actor Other, Vector HitLocation, Vector HitNormal)
 {
+	//Check if the Pawn hit is not the instigator
     if ( Other != Instigator && Other != None )
     {
+		// If not, Push the Pawn;
         Other.TakeDamage( Damage, InstigatorController, Location, MomentumTransfer * Normal(Velocity), MyDamageType,, self);
+		//Spawn a Particle Effect;
 		WorldInfo.MyEmitterPool.SpawnEmitter(ProjExplosionTemplate, Location); 
+		//And then Destroy the Projectile.
         Destroy();
     }
 	else
+		//If the Instigator /is/ hit by their own projectile,
     {  
+		//Add an ammo unit back to their Weapon;
 		UTWeapon(Pawn(Other).Weapon).AddAmmo (1);
+		//And Destroy the Projectile.
 		Destroy();
 	}
 }
@@ -86,7 +96,8 @@ simulated function ProcessTouch(Actor Other, Vector HitLocation, Vector HitNorma
  
 
 defaultproperties
-{	//increase Collision radius slightly
+{	
+	//Increase Collision radius slightly
 	Begin Object Name=CollisionCylinder
         CollisionRadius=8
         CollisionHeight=16
@@ -117,12 +128,13 @@ defaultproperties
 	ExplosionLightClass=class'UTGame.UTRocketExplosionLight'
 	bBounce=true
 	
-	//set Max bounces
+	//Set Max and Number of bounces
 	MaxBounces=3
 	NumBounces=0
 
 	bWaitForEffects=true
 	bAttachExplosionToVehicles=false
-	//Allow projectile to collide with insigator
+
+	//Allow the projectile to collide with it's instigator
 	bBlockedByInstigator=True
 }

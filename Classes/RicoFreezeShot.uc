@@ -1,9 +1,9 @@
 //Some code copied from UTUDamage class, Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
 
-class RicoSpeedBoost extends UTTimedPowerup;
+class RicoFreezeShot extends UTTimedPowerup;
 
 /**
- * This powerup temporarily increases the number of Projectiles fired by the pawn's Weapon.
+ * This powerup Causes projectiles fired from the Collecting Pawn's Weapon to reduce movement speed by 30%.
  */
 
 
@@ -33,8 +33,8 @@ function GivenTo(Pawn NewOwner, optional bool bDoNotActivate)
 
 	Super.GivenTo(NewOwner, bDoNotActivate);
 	P = RicoPawn(NewOwner);
-	// Multiply Movement Speed
-	P.GroundSpeed *= 5.0;	
+	// Toggle ON The FreezeShot Bool
+	P.bPowerupFreezeShot = True;
 	if (P != None)
 	{
 		// apply powerup overlay
@@ -99,9 +99,10 @@ function ItemRemovedFromInvManager()
 {
 	local UTPlayerReplicationInfo UTPRI;
 	local RicoPawn P;
-
-	Pawn(Owner).GroundSpeed /= 5.0;
 	P = RicoPawn(Owner);
+//Toggle off the FreezeShot Bool
+	P.bPowerupFreezeShot = False;
+
 	if (P != None)
 	{
 		P.ClearWeaponOverlayFlag( 0 );
@@ -141,10 +142,10 @@ function PlayPowerupFadingSound()
 DefaultProperties
 {
 		
-		PowerupStatName=POWERUPTIME_SPEEDBOOST
+		PowerupStatName=POWERUPTIME_SPREADFIRE
 
 	Begin Object Class=StaticMeshComponent Name=MeshComponentA
-		StaticMesh=StaticMesh'Pickups.JumpBoots.Mesh.S_UN_Pickups_Jumpboots002'
+		StaticMesh=StaticMesh'WP_RocketLauncher.Mesh.S_WP_Rocketlauncher_Rocket_old_lit'
 		AlwaysLoadOnClient=true
 		AlwaysLoadOnServer=true
 		CastShadow=false
@@ -161,7 +162,7 @@ DefaultProperties
 	PickupFactoryMesh=MeshComponentA
 
 	Begin Object Class=UTParticleSystemComponent Name=PickupParticles
-		Template=ParticleSystem'Pickups.Base_Armor.Effects.P_Pickups_Base_Armor_Glow'
+		Template=ParticleSystem'Pickups.WeaponBase.Effects.P_Pickups_WeaponBase_Glow'
 		bAutoActivate=false
 		SecondsBeforeInactive=1.0f
 		Translation=(X=0.0,Y=0.0,Z=+5.0)

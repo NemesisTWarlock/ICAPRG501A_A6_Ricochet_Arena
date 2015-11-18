@@ -4,14 +4,14 @@ class RicoDiscLauncher extends UTWeapon;
 /** Recharge rate in ammo per second  */
 var float RechargeRate;
 
-/** Amount of Projectiles to Fire (For SuperShot Perk) */
+/** Amount of Projectiles to Fire (For SpreadFire Powerup) */
 var int ProjCount;
 
 simulated function Projectile ProjectileFire() 
 {
     local int s;
 
-	if (RicoPawn(Owner).bPerkSpreadFire == true)
+	if (RicoPawn(Owner).bPowerupSpreadFire == true)
 	{
 		Spread[0]=0.6; //Spread out the projectiles
 		ProjCount = 5; //set Number of Projectiles to Fire

@@ -1,4 +1,4 @@
-class RicoPowerupSpeedFactory extends UTPowerupPickupFactory;
+class RicoPowerupSpreadFactory extends UTPowerupPickupFactory;
 
 
 
@@ -7,9 +7,9 @@ DefaultProperties
 	//Remove the Powerup Spawn Delay
 	bIsSuperItem=False
 
-	InventoryType=class'RicoSpeedBoost'
+	InventoryType=class'RicoSpreadFire'
 
-    PickupStatName=PICKUPS_RICOSPEEDBOOST
+    PickupStatName=PICKUPS_RICOSPREADFIRE
 
 	BaseBrightEmissive=(R=4.0,G=1.0,B=10.0)
 	BaseDimEmissive=(R=1.0,G=0.25,B=2.5)
