@@ -16,7 +16,8 @@ P = RicoPawn(Instigator);
 
 	//Weapon Projectile Perks
 
-
+if (P != None)
+{
 	if ( P.bPerkVelocity == True )
 	{ 
 		Speed = 15000;
@@ -42,7 +43,7 @@ P = RicoPawn(Instigator);
 		MaxBounces = 3;
 		//`log("Projectile Max Bounce count should be 3, is currently" @ MaxBounces);
 	}
-
+}
 	Super.PostBeginPlay();
 }
 
