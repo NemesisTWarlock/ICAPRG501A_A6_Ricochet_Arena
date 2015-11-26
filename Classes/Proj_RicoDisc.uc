@@ -78,8 +78,13 @@ simulated function ProcessTouch(Actor Other, Vector HitLocation, Vector HitNorma
     {
 		// If not, Push the Pawn;
         Other.TakeDamage( Damage, InstigatorController, Location, MomentumTransfer * Normal(Velocity), MyDamageType,, self);
-		//Spawn a Particle Effect;
+
+		//Spawn a Particle Effect (Unless Running Serverside, in which case there isn't an Emitter Pool);
+        if(WorldInfo.MyEmitterPool != None)
+		{		
 		WorldInfo.MyEmitterPool.SpawnEmitter(ProjExplosionTemplate, Location); 
+		}
+
 		//And then Destroy the Projectile.
         Destroy();
     }

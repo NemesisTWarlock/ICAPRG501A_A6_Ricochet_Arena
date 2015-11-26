@@ -31,6 +31,13 @@ var bool bPowerupFreezeShot;
 /** Projectiles fired by the Pawn */
 var Proj_RicoDisc Projectile;
 
+/** Is the Pawn Freezing? */
+var bool bIsFreezing;
+/** Is the Pawn Frozen? */
+var bool bIsFrozen;
+/** Is the Pawn Thawing? */
+var bool bIsThawing;
+
 
 /** Assist Scoring Array Struct */
 struct Hit
@@ -42,6 +49,7 @@ struct Hit
 
 /** HitHistory - Keeps track of controllers who hit a Pawn, and the Time Stamp (For Assist Scoring)*/
 var array<Hit> HitHistory;
+
 
 
 /**Disable Directional Dodge*/
@@ -156,20 +164,9 @@ exec function TogglePerkSpread()
 	}
 }
 
-exec function TogglePerkFreeze()
+exec function FreezeMe()
 {
-	if(!bPowerupFreezeShot)
-	{
-		bPowerupFreezeShot=true;
-				
-		ClientMessage("Freeze Powerup ON");
-	}
-	else
-	{
-		bPowerupFreezeShot=false;
-		
-		ClientMessage("Freeze Powerup OFF");
-	}
+	FreezePawn();
 }
 
 /** When hit, add the controller to hit the pawn and the time since level start to the HitHistory Array (For Assist Scoring)*/
@@ -213,10 +210,53 @@ simulated event TakeDamage(int Damage, Controller EventInstigator, vector HitLoc
 	}
 
 //Freeze Shot
-//ISSUE: Get Current Ricopawn from EventInstigator?
+	if (RicoPawn(EventInstigator.Pawn).bPowerupFreezeShot == True)
+		{
+			FreezePawn();
+		}
 
 //Do the rest of the standard TakeDamage Event
 	super.TakeDamage(Damage,EventInstigator, HitLocation,Momentum,DamageType,HitInfo,DamageCauser);
+}
+
+
+
+
+
+simulated function FreezePawn()
+{
+ bIsFreezing = true;
+ SetTimer( 10.0, false, 'FrozenPawn' );
+}
+
+simulated function FrozenPawn()
+{
+	bIsFreezing = false;
+	bIsFrozen = true; //Not particularly needed, but there in case I want to do something to a frozen player later, like for example, a shatterkill
+	SetTimer( 1.0, false, 'ThawPawn');
+}
+
+simulated function ThawPawn()
+{
+ bIsFrozen = false;
+ bIsThawing = true;
+ SetTimer( 10.0, false);
+}
+
+simulated function Tick(float DeltaTime)
+{
+
+ if ( bIsFreezing )
+ {
+  GroundSpeed = FInterpTo(GroundSpeed, default.GroundSpeed * 0.25, DeltaTime, 1.5);
+ }
+ else if ( bIsThawing )
+ {
+  GroundSpeed = FInterpTo(GroundSpeed, default.GroundSpeed, DeltaTime, 1.5);
+  
+ }
+
+
 }
 
 
@@ -232,7 +272,10 @@ simulated function PlayDying(class<DamageType> DamageType, Vector HitLoc)
 	//Set the Time Limit
 	AssistTimeLimit = Worldinfo.TimeSeconds - 10;
 
-	//Check through the Array
+	//Check if running as a Client first
+	if (worldinfo.NetMode != NM_Client)
+	{
+	//Then Check through the Array
 	for (i=0; i < HitHistory.Length; i++)
 		{
 			//If the timestamp of a hit in the array is less than the AssistTimeLimit;
@@ -248,6 +291,7 @@ simulated function PlayDying(class<DamageType> DamageType, Vector HitLoc)
 					HitHistory.Length = 0;
 				}
 		}
+	}
 	//Then do the rest of the standard Death functions.
 	super.PlayDying(DamageType, HitLoc);
 }

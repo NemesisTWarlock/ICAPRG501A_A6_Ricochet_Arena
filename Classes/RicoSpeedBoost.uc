@@ -47,7 +47,7 @@ function GivenTo(Pawn NewOwner, optional bool bDoNotActivate)
 }
 
 /**Display the Powerup Timer on the HUD*/
-simulated function DisplayPowerup(Canvas Canvas, UTHud HUD, float ResolutionScale,out float YPos)
+simulated function DisplayPowerup(Canvas Canvas, UTHUD HUD, float ResolutionScale,out float YPos)
 {
 	local float FlashAlpha, Scaler; //The Alpha for the Warning Flash, The Time scale for the flash amount
 	local float XPos; //UI X Position
@@ -80,7 +80,7 @@ simulated function DisplayPowerup(Canvas Canvas, UTHud HUD, float ResolutionScal
 
 	// Draw the Time Remaining;
     TimeRemainingAsInt = Max(0, int(TimeRemaining+1));
-	TimeRemainingAsString =("Boost Time Remaining:" @ TimeRemainingAsInt);
+	TimeRemainingAsString =("Speed Boost Time Remaining:" @ TimeRemainingAsInt);
     
 	Canvas.SetPos(XPos+20 * ResolutionScale, YPos+20 * ResolutionScale);
 	XPos += (35 * ResolutionScale);
@@ -182,4 +182,5 @@ DefaultProperties
 
 	TimeRemaining=10.0
 	bDelayedSpawn=false
+	RespawnTime = 5.0
 }

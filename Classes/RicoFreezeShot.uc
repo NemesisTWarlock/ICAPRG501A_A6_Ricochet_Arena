@@ -33,8 +33,10 @@ function GivenTo(Pawn NewOwner, optional bool bDoNotActivate)
 
 	Super.GivenTo(NewOwner, bDoNotActivate);
 	P = RicoPawn(NewOwner);
+
 	// Toggle ON The FreezeShot Bool
 	P.bPowerupFreezeShot = True;
+
 	if (P != None)
 	{
 		// apply powerup overlay
@@ -47,7 +49,7 @@ function GivenTo(Pawn NewOwner, optional bool bDoNotActivate)
 }
 
 /**Display the Powerup Timer on the HUD*/
-simulated function DisplayPowerup(Canvas Canvas, UTHud HUD, float ResolutionScale,out float YPos)
+simulated function DisplayPowerup(Canvas Canvas, UTHUD HUD, float ResolutionScale,out float YPos)
 {
 	local float FlashAlpha, Scaler; //The Alpha for the Warning Flash, The Time scale for the flash amount
 	local float XPos; //UI X Position
@@ -100,6 +102,7 @@ function ItemRemovedFromInvManager()
 	local UTPlayerReplicationInfo UTPRI;
 	local RicoPawn P;
 	P = RicoPawn(Owner);
+
 //Toggle off the FreezeShot Bool
 	P.bPowerupFreezeShot = False;
 
@@ -145,7 +148,7 @@ DefaultProperties
 		PowerupStatName=POWERUPTIME_SPREADFIRE
 
 	Begin Object Class=StaticMeshComponent Name=MeshComponentA
-		StaticMesh=StaticMesh'WP_RocketLauncher.Mesh.S_WP_Rocketlauncher_Rocket_old_lit'
+		StaticMesh=StaticMesh'KismetGame_Assets.Meshes.SM_MuzzleFlash_01'
 		AlwaysLoadOnClient=true
 		AlwaysLoadOnServer=true
 		CastShadow=false
@@ -154,7 +157,7 @@ DefaultProperties
 		bAcceptsLights=true
 		CollideActors=false
 		BlockRigidBody=false
-		Scale3D=(X=2,Y=2,Z=2)
+		Scale3D=(X=0.5,Y=0.5,Z=0.5)
 		MaxDrawDistance=8000
 		Translation=(X=0.0,Y=0.0,Z=-30.0)
 	End Object
@@ -183,4 +186,6 @@ DefaultProperties
 
 	TimeRemaining=10.0
 	bDelayedSpawn=false
+
+	RespawnTime=5.0
 }

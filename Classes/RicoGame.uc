@@ -51,6 +51,10 @@ DefaultProperties
 	bGivePhysicsGun=False
 	DefaultInventory[0]=class'Ricochet_Arena.RicoDiscLauncher'
 
-	//Sets Classic HUD
-	bUseClassicHUD=True
+	PlayerControllerClass=class'RicoPlayerController'
+	HUDType=class'RicoHUD'
+	bUseClassicHUD = True
+	
+
+
 }
